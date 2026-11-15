@@ -15,8 +15,13 @@ rem set JOBS=n first to limit parallel compiles.
 setlocal
 cd /d "%~dp0"
 
+if not exist ffmpeg\configure git submodule update --init
 if not exist ffmpeg\configure (
-  git submodule update --init || exit /b 1
+  rem 'git submodule update' succeeds silently when no submodule was added
+  echo FFmpeg's source is missing: ffmpeg\ is not there. Add it once ^(then commit^):
+  echo   git submodule add https://github.com/FFmpeg/FFmpeg.git ffmpeg
+  echo   git -C ffmpeg checkout n8.1
+  exit /b 1
 )
 
 if /i "%VSCMD_ARG_TGT_ARCH%"=="x64" goto have_env

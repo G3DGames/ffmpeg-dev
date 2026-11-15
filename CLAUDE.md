@@ -18,10 +18,20 @@ android-arm64 (NDK). FFmpeg is the submodule ffmpeg/ at tag n8.1.
 
 ## Rules
 - build.sh is POSIX sh (LF - .gitattributes); build.bat CRLF.
+- README code blocks must paste and run as they are (owner, zip 02): no
+  notes on command lines - comments on their own line (# in a shell,
+  rem in cmd), no <placeholders> (cmd reads < as a redirection): set a
+  variable instead.
 - Never commit or push, and don't offer to; the owner does.
 - Zips: files changed since the previous zip, paths from the repo root,
   ffmpeg-dev-NN-topic.zip, numbers never reused; every delivery says what
-  it goes on top of. Last number used: 01.
+  it goes on top of. Last number used: 03.
+
+## Owner's first run (zip 03)
+build.bat in a clone without the submodule: 'git submodule update --init'
+succeeded with nothing to do, and build.sh went on to configure ("cd:
+.../ffmpeg: No such file"). Both scripts now stop with the two commands
+that add it.
 
 ## Test notes (zip 01)
 - linux-x64 built here (gcc 13, 2 cores: 5 min): LGPL 2.1+; RUNPATH

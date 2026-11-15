@@ -9,11 +9,33 @@ TWhisper and the WhisperBooks reader - and collects each platform's in
 ```
 git clone --recurse-submodules https://github.com/G3DGames/ffmpeg-dev
 cd ffmpeg-dev
-build.bat                       Windows -> dlls\windows-x64
-./build.sh                      Linux -> dlls/linux-x64; a Mac -> its own architecture
-./build.sh macos                a Mac -> dlls/macos-arm64 and dlls/macos-x64
-./build.sh android-arm64        Linux or a Mac, with ANDROID_NDK_HOME set
 ```
+
+Then, by platform (every block below can be pasted as it is):
+
+```
+build.bat
+```
+
+builds `dlls\windows-x64` on Windows;
+
+```
+./build.sh
+```
+
+builds `dlls/linux-x64` on Linux, or the Mac's own architecture on a Mac;
+
+```
+./build.sh macos
+```
+
+builds `dlls/macos-arm64` and `dlls/macos-x64` on a Mac;
+
+```
+./build.sh android-arm64
+```
+
+builds `dlls/android-arm64` on Linux or a Mac, with `ANDROID_NDK_HOME` set.
 
 ## Targets
 
@@ -54,9 +76,13 @@ Once per machine:
 2. **MSYS2** from https://www.msys2.org, installed in `C:\msys64` (or set
    `MSYS2_ROOT` to its folder). FFmpeg's configure is a shell script: MSYS2
    gives it bash and make. The compiler is still Visual Studio's.
-3. In the **MSYS2 MSYS** shell (from the Start menu):
+3. In the **MSYS2 MSYS** shell (from the Start menu), update it:
    ```
-   pacman -Syu                     (it may close the shell: open it again and repeat)
+   # it may close the shell when it is done: open it again and run it again
+   pacman -Syu
+   ```
+   then add the build tools:
+   ```
    pacman -S --needed make diffutils nasm pkgconf
    ```
 4. **Git for Windows**, as for whisper-dev.
@@ -86,8 +112,14 @@ sudo apt install build-essential nasm git
 
 ## macOS
 
-Xcode's command line tools (`xcode-select --install`) and nasm
-(`brew install nasm`). Either Mac builds both architectures:
+Xcode's command line tools and nasm:
+
+```
+xcode-select --install
+brew install nasm
+```
+
+Either Mac builds both architectures:
 
 ```
 ./build.sh macos
@@ -99,6 +131,7 @@ The Android NDK (r26 or later; Android Studio's SDK Manager installs it,
 or download it) on Linux or a Mac (on Windows: WSL):
 
 ```
+# your NDK's folder (Android Studio puts it under Sdk/ndk/<version>):
 export ANDROID_NDK_HOME=$HOME/Android/Sdk/ndk/27.2.12479018
 ./build.sh android-arm64
 ```
@@ -113,9 +146,14 @@ Copy `dlls\<target>` next to the program (`demos\FFmpegConsole\Win64\Debug`,
 --ffmpeg <folder>`, `TFFmpegLibrary.Create('<folder>')`). Check it:
 
 ```
-FFmpegConsole --check --lgpl --ffmpeg <ffmpeg-dev>\dlls\windows-x64
-FFmpegConsole book.m4b --play --start 60 --end 65 --speed 0.75 --ffmpeg <ffmpeg-dev>\dlls\windows-x64
+rem the folder of your ffmpeg-dev clone, and an audio file of yours:
+set FFDLLS=C:\Dev\ffmpeg-dev\dlls\windows-x64
+set AUDIO=C:\Books\book.m4b
+FFmpegConsole --check --lgpl --ffmpeg %FFDLLS%
+FFmpegConsole %AUDIO% --play --start 60 --end 65 --speed 0.75 --ffmpeg %FFDLLS%
 ```
+
+(cmd; in PowerShell write `$env:FFDLLS = "..."` and `$env:FFDLLS`.)
 
 `--lgpl` refuses anything but an LGPL build; `--speed` uses avfilter.
 
