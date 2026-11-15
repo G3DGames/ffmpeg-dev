@@ -20,7 +20,7 @@ if not exist ffmpeg\configure (
   rem 'git submodule update' succeeds silently when no submodule was added
   echo FFmpeg's source is missing: ffmpeg\ is not there. Add it once ^(then commit^):
   echo   git submodule add https://github.com/FFmpeg/FFmpeg.git ffmpeg
-  echo   git -C ffmpeg checkout n8.1
+  echo   git -C ffmpeg checkout n8.1.3
   exit /b 1
 )
 

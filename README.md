@@ -1,9 +1,9 @@
 # ffmpeg-dev
 
-Builds **FFmpeg 8.1's shared libraries, LGPL, 64-bit** for every platform
+Builds **FFmpeg 8.1.3's shared libraries, LGPL, 64-bit** for every platform
 [TFFMpegAPI](https://github.com/G3DGames/TFFMpegAPI) supports - and so for
 TWhisper and the WhisperBooks reader - and collects each platform's in
-`dlls/<target>/`. FFmpeg is a submodule pinned to the release tag `n8.1`;
+`dlls/<target>/`. FFmpeg is a submodule pinned to the release tag `n8.1.3`;
 `build.sh` is the one build script, and `build.bat` sets Windows up for it.
 
 ```
@@ -89,17 +89,17 @@ which takes a few minutes. On Windows Git may also say
 CRLF`: harmless, Git reads the file either way. Then pin the version:
 
 ```
-git -C ffmpeg checkout n8.1
+git -C ffmpeg checkout n8.1.3
 ```
 
-Git answers `Note: switching to 'n8.1'. You are in 'detached HEAD'
-state ...` and `HEAD is now at 9047fa1b08 ...`: that is what a pinned
+Git answers `Note: switching to 'n8.1.3'. You are in 'detached HEAD'
+state ...` and `HEAD is now at 1041abdc96 ...`: that is what a pinned
 submodule is - it points at the tag's commit, not at a branch. Nothing to
 do about it; ignore the advice about `git switch`. Record the submodule:
 
 ```
 git add .
-git commit -m "FFmpeg n8.1 submodule"
+git commit -m "FFmpeg n8.1.3 submodule"
 ```
 
 and push. Clones made with `--recurse-submodules` then get FFmpeg at that
@@ -201,7 +201,7 @@ The libraries are loaded dynamically, as the LGPL expects. With a program
 that ships them:
 - include the licence texts from `dlls/<target>` and say which FFmpeg it
   is (`BUILD-INFO.txt`);
-- say where the source is: FFmpeg's tag `n8.1` (the commit in
+- say where the source is: FFmpeg's tag `n8.1.3` (the commit in
   `BUILD-INFO.txt`) and this repository's scripts, which rebuild it;
 - let users replace the libraries with their own build (TFFMpegAPI loads
   them by name from a folder, so they can).
@@ -223,7 +223,7 @@ TFFMpegAPI's `tools/ffmpeg_layout.py` rerun on `install/<target>/include`
 
 ## Layout
 
-- `ffmpeg/` - FFmpeg, submodule (https://github.com/FFmpeg/FFmpeg), tag `n8.1`
+- `ffmpeg/` - FFmpeg, submodule (https://github.com/FFmpeg/FFmpeg), tag `n8.1.3`
 - `build.sh` - the build, every target
 - `build.bat` - Windows: Visual Studio + MSYS2, then `build.sh windows-x64`
 - `build/<target>/`, `install/<target>/`, `dlls/` - made by the build (not in git)
