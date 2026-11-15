@@ -1,0 +1,3 @@
+# build.sh runs in a POSIX shell: always LF, also in a Windows checkout
+*.sh text eol=lf
+*.bat text eol=crlf
