@@ -11,6 +11,11 @@ git clone --recurse-submodules https://github.com/G3DGames/ffmpeg-dev
 cd ffmpeg-dev
 ```
 
+`--recurse-submodules` also fetches FFmpeg's source (`ffmpeg/`, about
+500 MB of history): it takes a few minutes. A clone made without it gets
+the source with `git submodule update --init`. (Setting up a new copy of
+this repository from scratch: see "Adding FFmpeg's source" below.)
+
 Then, by platform (every block below can be pasted as it is):
 
 ```
@@ -66,6 +71,39 @@ docs. Extra arguments after the target go to configure.
 Variables: `JOBS=n` limits the parallel compiles; `MACOS_MIN` (default
 `11.0`) and `ANDROID_API` (default `24`) are the lowest system versions
 the libraries run on.
+
+## Adding FFmpeg's source (once, in a new repository)
+
+The repository records FFmpeg as a submodule pinned to a release tag.
+When the repository is new, or `ffmpeg/` was never added, `build.bat` /
+`build.sh` stop with "FFmpeg's source is missing". Add it from the
+repository's folder (PowerShell, cmd or a shell - the same commands):
+
+```
+git submodule add https://github.com/FFmpeg/FFmpeg.git ffmpeg
+```
+
+This downloads FFmpeg's whole history - about 500 MB, 800 000+ objects -
+which takes a few minutes. On Windows Git may also say
+`warning: in the working copy of '.gitmodules', LF will be replaced by
+CRLF`: harmless, Git reads the file either way. Then pin the version:
+
+```
+git -C ffmpeg checkout n8.1
+```
+
+Git answers `Note: switching to 'n8.1'. You are in 'detached HEAD'
+state ...` and `HEAD is now at 9047fa1b08 ...`: that is what a pinned
+submodule is - it points at the tag's commit, not at a branch. Nothing to
+do about it; ignore the advice about `git switch`. Record the submodule:
+
+```
+git add .
+git commit -m "FFmpeg n8.1 submodule"
+```
+
+and push. Clones made with `--recurse-submodules` then get FFmpeg at that
+commit.
 
 ## Windows
 

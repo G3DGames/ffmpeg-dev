@@ -25,13 +25,16 @@ android-arm64 (NDK). FFmpeg is the submodule ffmpeg/ at tag n8.1.
 - Never commit or push, and don't offer to; the owner does.
 - Zips: files changed since the previous zip, paths from the repo root,
   ffmpeg-dev-NN-topic.zip, numbers never reused; every delivery says what
-  it goes on top of. Last number used: 03.
+  it goes on top of. Last number used: 04.
 
 ## Owner's first run (zip 03)
 build.bat in a clone without the submodule: 'git submodule update --init'
 succeeded with nothing to do, and build.sh went on to configure ("cd:
 .../ffmpeg: No such file"). Both scripts now stop with the two commands
-that add it.
+that add it. Zip 04 (owner: "The docs should state this will happen and
+inform of what to do"): README "Adding FFmpeg's source" - the two
+commands, the ~500 MB download, the .gitmodules LF/CRLF warning, the
+detached HEAD message (expected for a pinned submodule), add + commit.
 
 ## Test notes (zip 01)
 - linux-x64 built here (gcc 13, 2 cores: 5 min): LGPL 2.1+; RUNPATH
