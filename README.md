@@ -58,6 +58,13 @@ the licence, the target and the full configure line. The headers go to
 `install/<target>/include` (TFFMpegAPI's `tools/ffmpeg_layout.py` reads
 them; the C layout is the same on every 64-bit target).
 
+FFmpeg is configured with `--prefix=/usr/local` and installed through
+`DESTDIR` into `install/<target>`: the configure line is compiled into
+the libraries (TFFMpegAPI shows it as "Build options"), and a prefix
+naming the build folder put that machine's path - user name included -
+into the logs of everyone who uses the libraries. `/usr/local` is never
+used at run time.
+
 **Licence: LGPL.** No `--enable-gpl`, no `--enable-nonfree`: `build.sh`
 refuses both, and stops if configure reports anything but an LGPL licence.
 FFmpeg's own decoders cover what TFFMpegAPI plays (AAC / M4B, MP3, Opus,

@@ -76,6 +76,13 @@ done
 JOBS=${JOBS:-$(nproc 2>/dev/null || sysctl -n hw.ncpu 2>/dev/null || echo 4)}
 BUILD="$ROOT/build/$TARGET"
 PREFIX="$ROOT/install/$TARGET"
+# FFmpeg is configured for a neutral prefix and installed through DESTDIR
+# into a staging folder, then moved to $PREFIX: the configure line is
+# compiled into the libraries (avutil_configuration - TFFMpegAPI logs it
+# as "Build options"), and with --prefix=$PREFIX it carried this
+# machine's path, user name included, into every user's log
+CONF_PREFIX=/usr/local
+STAGE="$ROOT/install/$TARGET.stage"
 OUT="$ROOT/dlls/$TARGET"
 
 # What every platform gets. --disable-autodetect: nothing is picked up from
@@ -84,7 +91,7 @@ OUT="$ROOT/dlls/$TARGET"
 # them. The libraries TFFMpegAPI loads: avutil, swresample, avcodec,
 # avformat, swscale (video, and avfilter needs it), avfilter (the player's
 # speed change).
-COMMON="--prefix=$PREFIX --enable-shared --disable-static --disable-autodetect
+COMMON="--prefix=$CONF_PREFIX --enable-shared --disable-static --disable-autodetect
   --disable-doc --disable-debug --disable-avdevice --disable-ffplay"
 
 need_host() {
@@ -180,7 +187,12 @@ case "$LICENSE" in
 esac
 
 make -j"$JOBS"
-make install
+rm -rf "$STAGE"
+make install DESTDIR="$STAGE"
+rm -rf "$PREFIX"
+mkdir -p "$(dirname "$PREFIX")"
+mv "$STAGE$CONF_PREFIX" "$PREFIX"
+rm -rf "$STAGE"
 
 # dlls/<target>/: the libraries (and ffmpeg / ffprobe, to check files with),
 # the licence texts and what was built

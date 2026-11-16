@@ -25,7 +25,26 @@ android-arm64 (NDK). FFmpeg is the submodule ffmpeg/ at tag n8.1.3 (zip 05; was 
 - Never commit or push, and don't offer to; the owner does.
 - Zips: files changed since the previous zip, paths from the repo root,
   ffmpeg-dev-NN-topic.zip, numbers never reused; every delivery says what
-  it goes on top of. Last number used: 06.
+  it goes on top of. Last number used: 07.
+
+## Zip 07 (on top of 789b8e9): no build path in the libraries
+Session 7 (2026-11-16, the Linux port): linux-x64 built here with
+./build.sh as it was (Ubuntu 24.04, gcc 13): LGPL, RUNPATH $ORIGIN on
+libraries and programs, loaded and used by TFFMpegAPI (FPC build of
+FFmpegConsole: --check, probe / decode of an AAC m4a, WAV, --play with
+libpulse-simple - no server here, so the silent output - and speed 1.3).
+Found: --prefix=$PREFIX put the build machine's absolute path into
+FFMPEG_CONFIGURATION, which avutil_configuration returns and TFFMpegAPI
+logs ("Build options: --prefix=/home/...") on every user's machine.
+Now --prefix=/usr/local (CONF_PREFIX) and make install DESTDIR=
+install/<target>.stage, whose usr/local is moved to install/<target>
+(PREFIX, as before: dlls/ and the headers' place unchanged). Windows
+(MSYS2 make + cl) uses the same DESTDIR install - TO CHECK on the next
+Windows build (BUILD-INFO.txt's configure line must show
+--prefix=/usr/local, dlls\windows-x64 as before).
+Also seen: in a shallow clone (--depth 1) git describe finds no tag, so
+"(version?)" in the log and none in BUILD-INFO.txt - a normal clone has
+the tag.
 
 ## Owner's first run (zip 03)
 build.bat in a clone without the submodule: 'git submodule update --init'
