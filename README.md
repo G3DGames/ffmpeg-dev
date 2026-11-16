@@ -28,7 +28,12 @@ builds `dlls\windows-x64` on Windows;
 ./build.sh
 ```
 
-builds `dlls/linux-x64` on Linux, or the Mac's own architecture on a Mac;
+builds `dlls/linux-x64` on Linux, or the Mac's own architecture on a Mac.
+Built that way on Linux, the libraries need the build system's glibc or
+newer; **for libraries that run on every Linux (glibc 2.35+), build in
+whisper-dev's container instead** - `container-build/build.sh
+../ffmpeg-dev` from a whisper-dev clone next to this one, with Docker or
+Podman (whisper-dev's `container-build/README.md` explains all of it);
 
 ```
 ./build.sh macos
