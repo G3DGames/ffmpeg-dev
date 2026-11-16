@@ -74,7 +74,10 @@ for a in "$@"; do
 done
 
 JOBS=${JOBS:-$(nproc 2>/dev/null || sysctl -n hw.ncpu 2>/dev/null || echo 4)}
-BUILD="$ROOT/build/$TARGET"
+# BUILD_ROOT=folder: the build tree there instead of build/ (whisper-dev's
+# container-build/build.sh uses build-container/, so a container build and
+# a host build never share a configured tree)
+BUILD="$ROOT/${BUILD_ROOT:-build}/$TARGET"
 PREFIX="$ROOT/install/$TARGET"
 # FFmpeg is configured for a neutral prefix and installed through DESTDIR
 # into a staging folder, then moved to $PREFIX: the configure line is
